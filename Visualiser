@@ -70,7 +70,7 @@ circle.CanCollide = false
 circle.Anchored = false
 circle.CastShadow = false
 circle.Transparency = 0
-circle.Color = Color3.fromRGB(255, 255, 255)
+circle.Color = Color3.fromRGB(255, 255, 255) -- Always white
 
 local lastCheckTime = 99999
 local alreadyChecked = false
@@ -114,9 +114,9 @@ local function handleTargeting()
     local distance, ball = getDistanceAndBall()
     if isTargeted() and not alreadyChecked then
         if (tick() - lastCheckTime < 0.7 and distance < 70) or distance < 20 then
-            circle.Color = Color3.fromRGB(255, 0, 0) -- Red color for targeting
+            circle.Color = Color3.fromRGB(255, 0, 0) 
         else
-            circle.Color = Color3.fromRGB(255, 255, 255) -- White color when not targeting
+            circle.Color = Color3.fromRGB(255, 255, 255)
         end
         alreadyChecked = false
         lastCheckTime = tick()
