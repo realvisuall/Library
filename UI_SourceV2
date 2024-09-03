@@ -243,7 +243,7 @@ function Library.__init()
 
 	local tabsCorner = Instance.new("UICorner")
 	tabsCorner.Parent = tabs
-
+  
     local mobile_button = Instance.new("TextButton")
     mobile_button.Name = "Mobile"
     mobile_button.BackgroundColor3 = Color3.fromRGB(27, 28, 33)
@@ -257,13 +257,13 @@ function Library.__init()
     mobile_button.Text = ""
     mobile_button.TextColor3 = Color3.fromRGB(0, 0, 0)
     mobile_button.TextSize = 14.000
-    mobile_button.Visible = true 
     mobile_button.Parent = container
 
     local UIS = game:GetService("UserInputService")
     local TweenService = game:GetService("TweenService")
 
     local dragging, dragInput, dragStart, startPos
+    local mobileVisible = true
 
     local function update(input)
     local delta = input.Position - dragStart
@@ -284,99 +284,101 @@ function Library.__init()
             end
         end)
     end
-end)
+    end)
 
     mobile_button.InputChanged:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
         dragInput = input
     end
-end)
+    end)
 
-UIS.InputChanged:Connect(function(input)
+    UIS.InputChanged:Connect(function(input)
     if dragging and input == dragInput then
         update(input)
     end
+    end)
+
+    local UICorner = Instance.new("UICorner")
+    UICorner.CornerRadius = UDim.new(0, 13)
+    UICorner.Parent = mobile_button
+
+    local shadowMobile = Instance.new("ImageLabel")
+    shadowMobile.Name = "Shadow"
+    shadowMobile.Parent = mobile_button
+    shadowMobile.AnchorPoint = Vector2.new(0.5, 0.5)
+    shadowMobile.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    shadowMobile.BackgroundTransparency = 1.000
+    shadowMobile.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    shadowMobile.BorderSizePixel = 0
+    shadowMobile.Position = UDim2.new(0.5, 0, 0.5, 0)
+    shadowMobile.Size = UDim2.new(0, 120, 0, 58)
+    shadowMobile.ZIndex = 0
+    shadowMobile.Image = "rbxassetid://17183270335"
+    shadowMobile.ImageTransparency = 0.200
+
+    local State = Instance.new("TextLabel")
+    State.Name = "State"
+    State.Parent = mobile_button
+    State.AnchorPoint = Vector2.new(0.5, 0.5)
+    State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    State.BackgroundTransparency = 1.000
+    State.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    State.BorderSizePixel = 0
+    State.Position = UDim2.new(0.646000028, 0, 0.5, 0)
+    State.Size = UDim2.new(0, 64, 0, 15)
+    State.FontFace = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.SemiBold)
+    State.Text = ""
+    State.TextColor3 = Color3.fromRGB(255, 255, 255)
+    State.TextScaled = true
+    State.TextSize = 14.000
+    State.TextWrapped = true
+    State.TextXAlignment = Enum.TextXAlignment.Left
+
+    local Icon = Instance.new("ImageLabel")
+    Icon.Name = "Icon"
+    Icon.Parent = mobile_button
+    Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.BackgroundTransparency = 1.000
+    Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Icon.BorderSizePixel = 0
+    Icon.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Icon.Size = UDim2.new(0, 15, 0, 15)
+    Icon.Image = "rbxassetid://17183279677"
+ 
+    UIS.InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.LeftAlt or input.KeyCode == Enum.KeyCode.RightAlt then
+        mobileVisible = not mobileVisible
+        mobile_button.Visible = mobileVisible
+        shadowMobile.Visible = mobileVisible
+        Icon.Visible = mobileVisible
+    end
 end)
 
-   local UICorner = Instance.new("UICorner")
-   UICorner.CornerRadius = UDim.new(0, 13)
-   UICorner.Parent = mobile_button
+container.Container.InputBegan:Connect(function(input: InputObject)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        Library.dragging = true
+        Library.drag_position = input.Position
+        Library.start_position = container.Container.Position
 
-   local shadowMobile = Instance.new("ImageLabel")
-   shadowMobile.Name = "Shadow"
-   shadowMobile.Parent = mobile_button
-   shadowMobile.AnchorPoint = Vector2.new(0.5, 0.5)
-   shadowMobile.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-   shadowMobile.BackgroundTransparency = 1.000
-   shadowMobile.BorderColor3 = Color3.fromRGB(0, 0, 0)
-   shadowMobile.BorderSizePixel = 0
-   shadowMobile.Position = UDim2.new(0.5, 0, 0.5, 0)
-   shadowMobile.Size = UDim2.new(0, 120, 0, 58)
-   shadowMobile.ZIndex = 0
-   shadowMobile.Image = "rbxassetid://17183270335"
-   shadowMobile.ImageTransparency = 0.200
-   shadowMobile.Visible = true
-
-   local State = Instance.new("TextLabel")
-   State.Name = "State"
-   State.Parent = mobile_button
-   State.AnchorPoint = Vector2.new(0.5, 0.5)
-   State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-   State.BackgroundTransparency = 1.000
-   State.BorderColor3 = Color3.fromRGB(0, 0, 0)
-   State.BorderSizePixel = 0
-   State.Position = UDim2.new(0.646000028, 0, 0.5, 0)
-   State.Size = UDim2.new(0, 64, 0, 15)
-   State.FontFace = Font.new("rbxasset://fonts/families/Montserrat.json", Enum.FontWeight.SemiBold)
-   State.Text = ""
-   State.TextColor3 = Color3.fromRGB(255, 255, 255)
-   State.TextScaled = true
-   State.TextSize = 14.000
-   State.TextWrapped = true
-   State.TextXAlignment = Enum.TextXAlignment.Left
-
-   local Icon = Instance.new("ImageLabel")
-   Icon.Name = "Icon"
-   Icon.Parent = mobile_button
-   Icon.AnchorPoint = Vector2.new(0.5, 0.5)
-   Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-   Icon.BackgroundTransparency = 1.000
-   Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-   Icon.BorderSizePixel = 0
-   Icon.Position = UDim2.new(0.5, 0, 0.5, 0)
-   Icon.Size = UDim2.new(0, 15, 0, 15)
-   Icon.Image = "rbxassetid://17183279677"
-
-   local isAltPressed = false
-
-   UIS.InputBegan:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.LeftAlt then
-        if not isAltPressed then
-            shadowMobile.Visible = false
-            Icon.Visible = false
-            State.Visible = false
-            mobile_button.Visible = false  
-            Library.hidden = true 
-            isAltPressed = true
-        else
-            shadowMobile.Visible = true
-            Icon.Visible = true
-            State.Visible = true
-            mobile_button.Visible = true
-            Library.hidden = false 
-            isAltPressed = false
-        end
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                Library.dragging = false
+                Library.drag_position = nil
+                Library.start_position = nil
+            end
+        end)
     end
-    end)
+end)
 
-    UserInputService.InputChanged:Connect(function(input: InputObject)
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            Library.drag({
-                input = input,
-                container = container
-            })
-        end
-    end)
+UserInputService.InputChanged:Connect(function(input: InputObject)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+        Library.drag({
+            input = input,
+            container = container
+        })
+    end
+end)
 
     UserInputService.InputBegan:Connect(function(input: InputObject, process: boolean)
         if process then return end
